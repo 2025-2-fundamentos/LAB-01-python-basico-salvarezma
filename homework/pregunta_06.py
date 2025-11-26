@@ -5,7 +5,6 @@ solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
 
-
 def pregunta_06():
     """
     La columna 5 codifica un diccionario donde cada cadena de tres letras
@@ -24,5 +23,26 @@ def pregunta_06():
      ('hhh', 0, 9),
      ('iii', 0, 9),
      ('jjj', 5, 17)]
-
     """
+    valores_por_clave = {}
+
+    with open("files/input/data.csv", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            columnas = linea.strip().split("\t")
+            columna_5 = columnas[4].split(",")
+            for par in columna_5:
+                clave, valor = par.split(":")
+                valor = int(valor)
+                if clave in valores_por_clave:
+                    valores_por_clave[clave].append(valor)
+                else:
+                    valores_por_clave[clave] = [valor]
+
+    resultado = []
+    for clave in sorted(valores_por_clave):
+        lista_valores = valores_por_clave[clave]
+        minimo = min(lista_valores)
+        maximo = max(lista_valores)
+        resultado.append((clave, minimo, maximo))
+
+    return resultado

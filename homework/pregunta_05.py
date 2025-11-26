@@ -5,7 +5,6 @@ solo puede utilizar las funciones y librerias basicas de python. No puede
 utilizar pandas, numpy o scipy.
 """
 
-
 def pregunta_05():
     """
     Retorne una lista de tuplas con el valor maximo y minimo de la columna 2
@@ -13,5 +12,25 @@ def pregunta_05():
 
     Rta/
     [('A', 9, 2), ('B', 9, 1), ('C', 9, 0), ('D', 8, 3), ('E', 9, 1)]
-
     """
+    valores_por_letra = {}
+
+    with open("files/input/data.csv", "r", encoding="utf-8") as archivo:
+        for linea in archivo:
+            columnas = linea.strip().split("\t")
+            letra = columnas[0]
+            valor = int(columnas[1])
+
+            if letra in valores_por_letra:
+                valores_por_letra[letra].append(valor)
+            else:
+                valores_por_letra[letra] = [valor]
+
+    resultado = []
+    for letra in sorted(valores_por_letra):
+        lista_valores = valores_por_letra[letra]
+        maximo = max(lista_valores)
+        minimo = min(lista_valores)
+        resultado.append((letra, maximo, minimo))
+
+    return resultado
